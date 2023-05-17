@@ -8,23 +8,16 @@
     <title>Day Planner || Abe Hodos</title>
   </head>
   <body>
+    <section>
+      <button onclick="saveBlockData(null, 'this is a template description')">Save Block</button>
+      <button onclick="loadBlocks()">Load Blocks</button>
+    </section>
     <header>
       <h1>Day Planner</h1>
-      <h2>TODAYS_DATE</h2>
+      <h2 id="header-date"></h2>
     </header>
     <section id="planner-container">
       <p>Generate sections below class=planner-block</p>
-      <div class="planner-block">
-        <div class="planner-block--data">
-          <h1>Time</h1>
-          <h2>Date</h2>
-        </div>
-        <p>block description</p>
-        <div class="planner-block--options">
-          <button>Edit</button>
-          <button>Clear</button>
-        </div>
-      </div>
     </section>
   </body>
   <script src="./script.js"></script>

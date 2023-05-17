@@ -6,18 +6,28 @@
 
 #planner-container {
   margin: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, min-content);
+  grid-template-rows: repeat(8, 1fr);
 }
-#planner-container p {
+#planner-container input {
   margin: 10px;
 }
 #planner-container .planner-block {
   height: 75px;
-  width: 50%;
+  width: 100%;
   border: solid black 1px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
+  background-color: gray;
+}
+#planner-container .planner-block p {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
 }
 #planner-container .planner-block .planner-block--data {
   height: 100%;
@@ -37,12 +47,6 @@
 #planner-container .planner-block .planner-block--data h2 {
   font-size: 0.75em;
 }
-#planner-container .planner-block p {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 10px;
-}
 #planner-container .planner-block .planner-block--options {
   height: 100%;
   width: -moz-fit-content;
@@ -53,4 +57,10 @@
 #planner-container .planner-block .planner-block--options button {
   height: 100%;
   width: 75px;
+}
+#planner-container .planner-block.current-block {
+  background-color: red;
+}
+#planner-container .planner-block.future-block {
+  background-color: green;
 }/*# sourceMappingURL=style.css.map */

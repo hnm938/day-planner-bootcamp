@@ -6,20 +6,35 @@
 
 #planner-container {
   margin: 25px;
-  p {
+
+  display: grid;
+  grid-template-columns: repeat(3, min-content);
+  grid-template-rows: repeat(8, 1fr);
+
+  input {
     margin: 10px;
   }
 
+  // Default planner block CSS is assumed to be for an inactive block
   .planner-block {
     height: 75px;
-    width: 50%;
-    
+    width: 100%;
+
     border: solid black 1px;
 
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
+
+    background-color: gray;
+
+    p {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 10px;
+    }
 
     .planner-block--data {
       // border: solid yellow 1px;
@@ -45,13 +60,6 @@
       }
     }
 
-    p {
-      height: 100%;
-      width: 100%;
-      margin: 0;
-      padding: 10px;
-    }
-
     .planner-block--options {
       // border: solid red 1px;
       height: 100%;
@@ -66,5 +74,13 @@
         width: 75px;
       }
     }
+  }
+  // Current active block
+  .planner-block.current-block {
+    background-color: red;
+  }
+  // Future inactive blocks
+  .planner-block.future-block {
+    background-color: green;
   }
 }
