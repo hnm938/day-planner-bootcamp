@@ -10,15 +10,19 @@ const today = new Date();
 // Init function
 function init() {
   // Set header date
-  const formattedDate = today.toLocaleDateString("en-CA", { weekday: "long", month: "long", day: "numeric"});
+  const formattedDate = today.toLocaleDateString("en-CA", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
   document.getElementById("header-date").innerHTML = formattedDate.toString();
-  
+
   // Generate blocks
   if (!plannerBlockString) {
     for (let hour = 1; hour < 25; hour++) {
       saveBlockData(
         null,
-        "NO TASK SET",
+        "",
         `${hour % 12 || 12} ${hour <= 12 ? "A.M." : "P.M."}`,
         today.getDate(),
         `${hour <= 12 ? "AM" : "PM"}`
@@ -31,37 +35,47 @@ function init() {
 
 // function to load all blocks and their data from local storage
 function loadBlocks() {
-
   // ID of container that holds planner blocks
   const plannerBlockList = document.getElementById(PLANNER_BLOCKS);
+  const currentMonth = new Date().getMonth() + 1;
+  const currentDate = new Date().getDate();
 
-  console.log(plannerBlocks);
-  plannerBlockList.innerHTML = plannerBlocks.map(
-    (data) =>
-      `
+  plannerBlockList.innerHTML = plannerBlocks
+    .map(
+      (data) =>
+        `
       <div class="planner-block ${data.classes}" id="${data.id}">
         <div class="planner-block--data">
           <h1 class="planner-block--time">${data.time}</h1>
-          <h2 class="planner-block--date">${data.date}</h2>
+          <h2 class="planner-block--date">${currentMonth} / ${currentDate}</h2>
         </div>
-        <input type="text" value="${data.description}" oninput="saveBlockData(this.parentNode.id, this.value, null, null)"></input>
+        <textarea class="planner-block--description" resize="none" col="5" type="text" placeholder="${
+          data.description == "" ? "..." : data.description
+        }"></textarea>
         <div class="planner-block--options">
-          <button>Edit</button>
-          <button>Clear</button>
+          <button onclick="saveBlockData(this.parentNode.parentNode.id, this.parentNode.previousElementSibling.value, null, null)">
+            <i class="fa-solid fa-floppy-disk"></i>
+          </button>
+          <button disabled>
+            <i class="fa-solid fa-calendar"></i>
+          </button>
         </div>
       </div>`
-  ).join("");
+    )
+    .join("");
 
   for (let block of plannerBlockList.children) {
     // Check current time to blocks time
     let currentTime = today.getHours() % 12 || 12;
     // Check the current meridiem (if it's AM or PM)
     let currentMeridiem = today.getHours() <= 12 ? "AM" : "PM";
-    let blockTime = parseInt(block.querySelector(".planner-block--time").innerHTML);
-    
+    let blockTime = parseInt(
+      block.querySelector(".planner-block--time").innerHTML
+    );
+
     // Clear all classes
     if (block.classList.contains("current-block")) {
-      block.classList.remove("current-block")
+      block.classList.remove("current-block");
     }
     if (block.classList.contains("future-block")) {
       block.classList.remove("future-block");
@@ -69,11 +83,14 @@ function loadBlocks() {
 
     // Set active block background as green
     // Check if the times are the same and if the meridiems are matching
-    if (blockTime === currentTime && block.classList.contains(currentMeridiem)) {
+    if (
+      blockTime === currentTime &&
+      block.classList.contains(currentMeridiem)
+    ) {
       // !! All blocks not tagged are assumed to be previous blocks
       // Tag the current block
-      block.classList.add("current-block")
-      
+      block.classList.add("current-block");
+
       // Tag all blocks after current as future blocks
       while ((block = block.nextElementSibling) !== null) {
         if (block.nextElementSibling === null) {
